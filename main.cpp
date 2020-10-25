@@ -3,36 +3,53 @@
 
 using namespace std;
 
-vector<vector<int>>field(64, vector<int>(64));
-
-enum Type { Void, Food, Poison, Wall, Crt };
-enum Action{Nothing, Left, Right, Up, Down};
+enum Action{Nothing, Go, Eat};
 
 class Robot
 {
-	Type _type;
 private:
-	int mHealht;
-	int mDirection;
-	int mIndex;
+	
+	int mDirection = 4;
+	int mIndex = 0;
+
+	int dir() {
+		if (mDirection > 4){
+			mDirection = 1;
+		}
+		else if (mDirection < 1){
+			mDirection = 4;
+		}
+
+	}
 	
 public:
 	vector<int>commands;
+	int mHealht;
 	int update()
 	{
-		if (mIndex == commands.size()) mIndex = 0;
+		/*if (mIndex == commands.size()) mIndex = 0;*/
+		if (mIndex > 64) mIndex -= 64;
 		switch (mIndex)
 		{
 		case (1):
-			return Left;
-		case (2):
-			return Right;
-		case (3):
-			return Up;
-		case (4):
-			return Down;
+			mDirection--;
+			dir();
+			return Nothing;
 
-			break;
+		case (2):
+			mDirection++;
+			dir();
+			return Nothing;
+
+		case (3):
+			return Go;
+
+		case(4):
+			return Eat;
+
+		case(5):
+			mIndex += 5;
+			return Nothing;
 		}
 	}
 };
