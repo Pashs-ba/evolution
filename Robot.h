@@ -12,7 +12,7 @@ private:
     int fix_direction();
 public:
     std::vector<int>commands;
-
-}
+    int update();
+};
 
 #endif //EVO_ROBOT_H
