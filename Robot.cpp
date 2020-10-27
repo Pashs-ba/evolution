@@ -1,5 +1,7 @@
 #include "Robot.h"
 
+#include <utility>
+
 int Robot::fix_direction(){
     if (mDirection > 4){
         mDirection = 1;
@@ -37,11 +39,18 @@ int Robot::update(){
     return Nothing;
 }
 
-Robot::Robot(int commands_size, int health, coordinate iCoordinates):
+Robot::Robot(int commands_size, int health, std::pair<int, int> iCoordinates):
     commands(commands_size),
-    mCoordinates(iCoordinates)
+    mCoordinates(std::move(iCoordinates))
 {
     mHealth = health;
     size = commands_size;
+
+    std::random_device c;
+    std::default_random_engine c1(c());
+    std::uniform_int_distribution<int> make_c(0, 5);
+    for(auto& i: commands){
+        i = make_c(c1);
+    }
 }
 

@@ -4,14 +4,11 @@
 
 #include "Hole.h"
 #include <utility>
-#include <ctime>
-#include <cstdlib>
-#include <random>
 #include <set>
 
 Hole::Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, int eat_per_step):
     size(size),
-    robots(RCount, Robot(commands_size, RHealth, coordinate{-1, -1}))
+    robots(RCount, Robot(commands_size, RHealth, std::pair<int, int>(-1, -1)))
 {
     std::random_device x;
     std::random_device y;
@@ -30,6 +27,6 @@ Hole::Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, 
             new_coor = {to_x(x1), to_y(y1)};
         }
         been.emplace(new_coor);
-        i.mCoordinates = {new_coor.first, new_coor.second};
+        i.mCoordinates = new_coor;
     }
 };

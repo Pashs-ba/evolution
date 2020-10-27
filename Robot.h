@@ -2,6 +2,7 @@
 #define EVO_ROBOT_H
 #include <vector>
 #include "enums.h"
+#include <random>
 
 
 class Robot{
@@ -16,8 +17,8 @@ public:
     std::vector<int> commands;
     int update();
     int mHealth = 100;
-    coordinate mCoordinates;
-    Robot(int commands_size, int health, coordinate iCoordinates);
+    std::pair<int, int> mCoordinates;
+    Robot(int commands_size, int health, std::pair<int, int> iCoordinates);
 };
 
 #endif //EVO_ROBOT_H

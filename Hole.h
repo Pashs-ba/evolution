@@ -12,7 +12,7 @@
 class Hole {
 private:
     std::pair<int, int> size;
-    std::vector<coordinate> eat;
+    std::vector<std::pair<int, int>> eat;
     int Eat_per_step;
 public:
     std::vector<Robot> robots;
