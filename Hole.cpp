@@ -9,7 +9,7 @@
 #include <random>
 #include <set>
 
-Hole::Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, int Eat_per_step):
+Hole::Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, int eat_per_step):
     size(size),
     robots(RCount, Robot(commands_size, RHealth, coordinate{-1, -1}))
 {
@@ -20,15 +20,16 @@ Hole::Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, 
     std::uniform_int_distribution<int> to_x(0, size.first);
     std::uniform_int_distribution<int> to_y(0, size.second);
 
-    Eat_per_step = Eat_per_step;
+    Eat_per_step = eat_per_step;
 
-    std::set<coordinate> been;
+
+    std::set<std::pair< int, int>> been;
     for(auto& i: robots){
-        coordinate new_coor{to_x(x1), to_y(y1)};
-        while(been.find(new_coor) != been.end()){
+        std::pair<int, int> new_coor(to_x(x1), to_y(y1));
+        while(been.find(new_coor)!= been.end()){
             new_coor = {to_x(x1), to_y(y1)};
         }
         been.emplace(new_coor);
-        i.mCoordinates = new_coor;
+        i.mCoordinates = {new_coor.first, new_coor.second};
     }
 };
