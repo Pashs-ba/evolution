@@ -36,8 +36,10 @@ int Robot::update(){
     }
     return Nothing;
 }
-Robot::Robot(int commands_size, int health):
-    commands(commands_size)
+
+Robot::Robot(int commands_size, int health, coordinate iCoordinates):
+    commands(commands_size),
+    mCoordinates(iCoordinates)
 {
     mHealth = health;
     size = commands_size;

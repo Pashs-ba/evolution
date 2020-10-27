@@ -11,8 +11,13 @@
 
 class Hole {
 private:
-    std::pair<int , int> size;
-
+    std::pair<int, int> size;
+    std::vector<coordinate> eat;
+    int Eat_per_step;
+public:
+    std::vector<Robot> robots;
+    Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, int Eat_per_step);
+    void main();
 };
 
 

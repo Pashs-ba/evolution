@@ -11,11 +11,13 @@ private:
     int mIndex = 0;
     int fix_direction();
     int size;
+
 public:
     std::vector<int> commands;
     int update();
     int mHealth = 100;
-    Robot(int commands_size, int health);
+    coordinate mCoordinates;
+    Robot(int commands_size, int health, coordinate iCoordinates);
 };
 
 #endif //EVO_ROBOT_H
