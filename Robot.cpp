@@ -11,7 +11,7 @@ int Robot::fix_direction(){
 
 int Robot::update(){
 
-    if (mIndex > 64) mIndex -= 64;
+    if (mIndex > size) mIndex -= size;
     switch (mIndex)
     {
         case (1): // Left
@@ -34,5 +34,12 @@ int Robot::update(){
             mIndex += 5;
             return Nothing;
     }
+    return Nothing;
+}
+Robot::Robot(int commands_size, int health):
+    commands(commands_size)
+{
+    mHealth = health;
+    size = commands_size;
 }
 
