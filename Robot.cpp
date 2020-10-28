@@ -1,8 +1,9 @@
 #include "Robot.h"
 
 #include <utility>
-#include <stdlib.h>
-#include <time.h>
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
 
 int Robot::fix_direction(){
     if (mDirection > 4){
@@ -14,18 +15,20 @@ int Robot::fix_direction(){
 }
 
 int Robot::update(){
-
+    mIndex++;
     if (mIndex > size) mIndex -= size;
     switch (mIndex)
     {
         case (1): // Left
             mDirection--;
             fix_direction();
+
             return Nothing;
 
         case (2): // Right
             mDirection++;
             fix_direction();
+
             return Nothing;
 
         case (3):
@@ -35,7 +38,7 @@ int Robot::update(){
             return Eat;
 
         case(5):
-            mIndex += 1;
+            mIndex++;
             return Nothing;
         case(6):
             mIndex += 2;
@@ -51,6 +54,7 @@ int Robot::update(){
             return Nothing;
 
     }
+
     return Nothing;
 }
 
@@ -60,7 +64,8 @@ Robot::Robot(int commands_size, int health, std::pair<int, int> iCoordinates):
 {
     mHealth = health;
     size = commands_size;
-    srand (time(NULL));
+    std::cout<<time(NULL)<<std::endl;
+//    srand (time(NULL));
     for(auto& i: commands){
         i = rand()%10;
     }

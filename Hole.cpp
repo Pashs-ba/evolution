@@ -8,9 +8,12 @@
 #include <algorithm>
 
 Hole::Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, int eat_per_step, int min_r):
-    size(size),
-    robots(RCount, Robot(commands_size, RHealth, std::pair<int, int>(-1, -1)))
+    size(size)
+
 {
+    for(int i = 0; i<RCount; ++i){
+        robots.emplace_back(commands_size, RHealth, std::pair<int, int>(-1, -1));
+    }
     Eat_per_step = eat_per_step;
     minR = min_r;
     std::set<std::pair< int, int>> been;
