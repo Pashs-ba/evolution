@@ -1,6 +1,8 @@
 #include "Robot.h"
 
 #include <utility>
+#include <stdlib.h>
+#include <time.h>
 
 int Robot::fix_direction(){
     if (mDirection > 4){
@@ -58,9 +60,9 @@ Robot::Robot(int commands_size, int health, std::pair<int, int> iCoordinates):
 {
     mHealth = health;
     size = commands_size;
-
+    srand (time(NULL));
     for(auto& i: commands){
-        i = random()%10;
+        i = rand()%10;
     }
 }
 
