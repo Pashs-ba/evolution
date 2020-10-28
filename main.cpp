@@ -2,6 +2,7 @@
 #include "Hole.h"
 int main()
 {
-    Hole hole({12, 10}, 10, 64, 100, 20);
+    Hole hole({10, 10}, 20, 64, 10, 15, 4);
+    hole.main();
 	return 0;
 }

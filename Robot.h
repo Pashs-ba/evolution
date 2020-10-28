@@ -7,16 +7,15 @@
 
 class Robot{
 private:
-
-    int mDirection = 4;
     int mIndex = 0;
     int fix_direction();
     int size;
 
 public:
     std::vector<int> commands;
+    int mDirection = 4;
     int update();
-    int mHealth = 100;
+    int mHealth;
     std::pair<int, int> mCoordinates;
     Robot(int commands_size, int health, std::pair<int, int> iCoordinates);
 };

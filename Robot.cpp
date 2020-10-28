@@ -33,8 +33,21 @@ int Robot::update(){
             return Eat;
 
         case(5):
+            mIndex += 1;
+            return Nothing;
+        case(6):
+            mIndex += 2;
+            return Nothing;
+        case(7):
+            mIndex += 3;
+            return Nothing;
+        case(8):
+            mIndex += 4;
+            return Nothing;
+        case(9):
             mIndex += 5;
             return Nothing;
+
     }
     return Nothing;
 }
@@ -46,11 +59,8 @@ Robot::Robot(int commands_size, int health, std::pair<int, int> iCoordinates):
     mHealth = health;
     size = commands_size;
 
-    std::random_device c;
-    std::default_random_engine c1(c());
-    std::uniform_int_distribution<int> make_c(0, 5);
     for(auto& i: commands){
-        i = make_c(c1);
+        i = random()%10;
     }
 }
 
