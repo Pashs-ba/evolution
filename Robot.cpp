@@ -64,10 +64,9 @@ Robot::Robot(int commands_size, int health, std::pair<int, int> iCoordinates):
 {
     mHealth = health;
     size = commands_size;
-    std::cout<<time(NULL)<<std::endl;
 //    srand (time(NULL));
     for(auto& i: commands){
-        i = rand()%10;
+        i = random()%10;
     }
 }
 

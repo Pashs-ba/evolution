@@ -17,10 +17,11 @@ Hole::Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, 
     Eat_per_step = eat_per_step;
     minR = min_r;
     std::set<std::pair< int, int>> been;
+
     for(auto& i: robots){
-        std::pair<int, int> new_coor(rand()%size.first+1, rand()%size.second+1);
+        std::pair<int, int> new_coor(random()%size.first, random()%size.second);
         while(been.find(new_coor)!= been.end()){
-            new_coor = {rand()%size.first+1, rand()%size.second+1};
+            new_coor = {random()%size.first, random()%size.second};
         }
         been.emplace(new_coor);
         i.mCoordinates = new_coor;
@@ -33,14 +34,14 @@ void Hole::main(){
 }
 void Hole::generate_new_eat() {
     for(int i = 0; i<Eat_per_step; i++){
-        std::pair<int, int> new_eat(rand()%size.first+1, rand()%size.second+1);
+        std::pair<int, int> new_eat(random()%size.first+1, random()%size.second+1);
         int max = size.first *size.second;
         int now = 0;
-        while(eat.find(new_eat)!= eat.end() and now<max){
-            new_eat = {rand()%size.first+1, rand()%size.second+1};\
+        while(find(eat.begin(), eat.end(), new_eat) != eat.end() and now<max){
+            new_eat = {random()%size.first, random()%size.second};
             now++;
         }
-        eat.emplace(new_eat);
+        eat.push_back(new_eat);
     }
 
 
@@ -80,9 +81,9 @@ void Hole::step(){
             std::pair<int, int> move = {i.mCoordinates.first += RDirection.first,
                     i.mCoordinates.second += RDirection.second};
             if(move.first>=0 and move.first<=size.first and move.second>=0 and move.second <= size.second){
-                if(eat.find(move) != eat.end()){
+                if(find(eat.begin(), eat.end(), move) != eat.end()){
                     i.mHealth += 2;
-                    eat.erase(move);
+                    eat.erase(eat.begin()+distance(eat.begin(), find(eat.begin(), eat.end(), move)));
                 }
             }
 
