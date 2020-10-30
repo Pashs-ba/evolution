@@ -1,7 +1,3 @@
-//
-// Created by pashs on 10/27/20.
-//
-
 #include "Hole.h"
 #include <utility>
 #include <set>
@@ -16,6 +12,7 @@ Hole::Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, 
     }
     Eat_per_step = eat_per_step;
     minR = min_r;
+    r_count = RCount;
     std::set<std::pair< int, int>> been;
 
     for(auto& i: robots){
@@ -27,21 +24,19 @@ Hole::Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, 
         i.mCoordinates = new_coor;
     }
 }
-void Hole::main(){
-    while(robots.size()>minR){
-       step();
-    }
-}
 void Hole::generate_new_eat() {
     for(int i = 0; i<Eat_per_step; i++){
-        std::pair<int, int> new_eat(random()%size.first+1, random()%size.second+1);
+        std::pair<int, int> new_eat(random()%size.first, random()%size.second);
         int max = size.first *size.second;
         int now = 0;
-        while(find(eat.begin(), eat.end(), new_eat) != eat.end() and now<max){
-            new_eat = {random()%size.first, random()%size.second};
+        while(find(eat.begin(), eat.end(), new_eat) != eat.end() and now<=max){
+            new_eat = std::make_pair(random()%size.first, random()%size.second);
             now++;
         }
-        eat.push_back(new_eat);
+        if(now<=max){
+            eat.push_back(new_eat);
+        }
+
     }
 
 
@@ -98,4 +93,8 @@ void Hole::step(){
 
         }
     }
+}
+void Hole::new_era() {
+    int to_create = r_count/robots.size();
+
 }
