@@ -16,44 +16,49 @@ int Robot::fix_direction(){
 
 int Robot::update(){
     mIndex++;
-    if (mIndex > size) mIndex -= size;
-    switch (mIndex)
-    {
-        case (1): // Left
-            mDirection--;
-            fix_direction();
-
-            return Nothing;
-
-        case (2): // Right
-            mDirection++;
-            fix_direction();
-
-            return Nothing;
-
-        case (3):
-            return Go;
-
-        case(4):
-            return Eat;
-
-        case(5):
-            mIndex++;
-            return Nothing;
-        case(6):
-            mIndex += 2;
-            return Nothing;
-        case(7):
-            mIndex += 3;
-            return Nothing;
-        case(8):
-            mIndex += 4;
-            return Nothing;
-        case(9):
-            mIndex += 5;
-            return Nothing;
-
+    if (mIndex >= commands.size() - 1 ){
+        mIndex -= commands.size();
     }
+    if (!commands.empty()){
+        switch (commands[mIndex])
+        {
+            case (1): // Left
+                mDirection--;
+                fix_direction();
+
+                return Nothing;
+
+            case (2): // Right
+                mDirection++;
+                fix_direction();
+
+                return Nothing;
+
+            case (3):
+                return Go;
+
+            case(4):
+                return Eat;
+
+            case(5):
+                mIndex++;
+                return Nothing;
+            case(6):
+                mIndex += 2;
+                return Nothing;
+            case(7):
+                mIndex += 3;
+                return Nothing;
+            case(8):
+                mIndex += 4;
+                return Nothing;
+            case(9):
+                mIndex += 5;
+                return Nothing;
+
+        }
+    }
+
 
     return Nothing;
 }

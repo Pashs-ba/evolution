@@ -10,9 +10,9 @@ private:
     int mIndex = 0;
     int fix_direction();
     int size;
-
-public:
     std::vector<int> commands;
+public:
+
     int mDirection = 4;
     int update();
     int mHealth;

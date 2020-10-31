@@ -59,11 +59,11 @@ void Hole::step(){
         int response = i.update();
         if (response == Go){
             auto RDirection = find_direction(i.mDirection);
-            std::pair<int, int> move = {i.mCoordinates.first += RDirection.first,
-                    i.mCoordinates.second += RDirection.second};
+            std::pair<int, int> move = {i.mCoordinates.first + RDirection.first,
+                    i.mCoordinates.second + RDirection.second};
             bool is_Free = true;
             for (auto & robot : robots){
-                if (robot.mCoordinates == i.mCoordinates){
+                if (robot.mCoordinates == move){
                     is_Free = false;
                 }
             }
@@ -73,8 +73,8 @@ void Hole::step(){
             }
         }else if(response == Eat){
             auto RDirection = find_direction(i.mDirection);
-            std::pair<int, int> move = {i.mCoordinates.first += RDirection.first,
-                    i.mCoordinates.second += RDirection.second};
+            std::pair<int, int> move = {i.mCoordinates.first + RDirection.first,
+                    i.mCoordinates.second + RDirection.second};
             if(move.first>=0 and move.first<=size.first and move.second>=0 and move.second <= size.second){
                 if(find(eat.begin(), eat.end(), move) != eat.end()){
                     i.mHealth += 2;
@@ -94,7 +94,4 @@ void Hole::step(){
         }
     }
 }
-void Hole::new_era() {
-    int to_create = r_count/robots.size();
 
-}
