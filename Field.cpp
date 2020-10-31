@@ -94,5 +94,5 @@ void Field::step(){
         }
     }
 }
-void Field::new
+
 
