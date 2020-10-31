@@ -2,15 +2,15 @@
 // Created by pashs on 10/27/20.
 //
 
-#ifndef EVO_HOLE_H
-#define EVO_HOLE_H
+#ifndef EVO_FIELD_H
+#define EVO_FIELD_H
 
 #include "enums.h"
 #include "Robot.h"
 #include <utility>
 #include <set>
 
-class Hole {
+class Field {
 private:
     int Eat_per_step;
     int r_count;
@@ -21,11 +21,11 @@ public:
     int minR;
     void step();
     std::vector<Robot> robots;
-    Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, int Eat_per_step, int minR);
+    Field(std::pair<int, int> size, int RCount, int commands_size, int RHealth, int Eat_per_step, int minR);
     std::pair<int, int> size;
     std::vector<std::pair<int, int>> eat;
     void new_era();
 };
 
 
-#endif //EVO_HOLE_H
+#endif //EVO_FIELD_H

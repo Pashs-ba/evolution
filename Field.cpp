@@ -1,9 +1,9 @@
-#include "Hole.h"
+#include "Field.h"
 #include <utility>
 #include <set>
 #include <algorithm>
 
-Hole::Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, int eat_per_step, int min_r):
+Field::Field(std::pair<int, int> size, int RCount, int commands_size, int RHealth, int eat_per_step, int min_r):
     size(size)
 
 {
@@ -24,7 +24,7 @@ Hole::Hole(std::pair<int, int> size, int RCount,int commands_size, int RHealth, 
         i.mCoordinates = new_coor;
     }
 }
-void Hole::generate_new_eat() {
+void Field::generate_new_eat() {
     for(int i = 0; i<Eat_per_step; i++){
         std::pair<int, int> new_eat(random()%size.first, random()%size.second);
         int max = size.first *size.second;
@@ -42,7 +42,7 @@ void Hole::generate_new_eat() {
 
 }
 
-std::pair<int, int> Hole::find_direction(int r_dir) {
+std::pair<int, int> Field::find_direction(int r_dir) {
     if (r_dir == 1){
         return {0, -1};
     }if (r_dir == 2){
@@ -53,7 +53,7 @@ std::pair<int, int> Hole::find_direction(int r_dir) {
         return {-1, 0};
     }
 }
-void Hole::step(){
+void Field::step(){
     generate_new_eat();
     for(auto& i: robots){
         int response = i.update();
@@ -94,4 +94,5 @@ void Hole::step(){
         }
     }
 }
+void Field::new
 
