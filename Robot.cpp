@@ -57,7 +57,9 @@ int Robot::update(){
             case(9):
                 mIndex += 5;
                 return Nothing;
-
+			case(10):
+				//std::cout << "Repoison" << std::endl;
+				return Poison;
         }
     }
 
@@ -73,7 +75,7 @@ Robot::Robot(int commands_size, int health, std::pair<int, int> iCoordinates):
     size = commands_size;
 //    srand (time(NULL));
     for(auto& i: commands){
-		i = rand()%10;
+		i = 1+rand()%11;
     }
 }
 

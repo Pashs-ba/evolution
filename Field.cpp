@@ -5,7 +5,7 @@
 #include <cmath>
 #include <iostream>
 
-Field::Field(std::pair<int, int> size, int RCount, int commands_size, int RHealth, int eat_per_step, int min_r):
+Field::Field(std::pair<int, int> size, int RCount, int commands_size, int RHealth, int eat_per_step, int min_r, int walls, int poison):
     size(size)
 
 {
@@ -17,17 +17,100 @@ Field::Field(std::pair<int, int> size, int RCount, int commands_size, int RHealt
     r_count = RCount;
 	rHealth = RHealth;
 	commandsS = commands_size;
+	c_walls = walls;
+	c_poison = poison;
 	find_coor();
+	generate_poison();
 	generate_new_eat();
+	generate_walls();
 
 }
+void Field::generate_walls() {
+	for (int i = 0; i < c_walls; i++) {
+		std::pair<int, int> new_wall(rand() % size.first+1, rand() % size.second+1);
+		int max = size.first * size.second;
+		int now = 0;
+		while (find(walls.begin(), walls.end(), new_wall) != walls.end() and now <= max) {
+			new_wall = std::make_pair(rand() % size.first+1, rand() % size.second+1);
+			now++;
+		}
+		if (now <= max) {
+			walls.push_back(new_wall);
+		}
+
+	}
+}
+
+void Field::generate_poison() {
+	for (int i = 0; i < c_poison; i++) {
+		std::pair<int, int> new_poison(rand() % size.first + 1, rand() % size.second + 1);
+		int max = size.first * size.second;
+		int now = 0;
+		while (find(poison.begin(), poison.end(), new_poison) != poison.end() and now <= max and find(eat.begin(), eat.end(), new_poison) !=eat.end()) {
+			new_poison = std::make_pair(rand() % size.first+1, rand() % size.second+1);
+			now++;
+		}
+		if (now <= max) {
+			poison.push_back(new_poison);
+		}
+
+	}
+}
+
+void Field::generate_new_eat() {
+	for (int i = 0; i < Eat_per_step; i++) {
+		std::pair<int, int> new_eat(rand() % size.first, rand() % size.second);
+		int max = size.first * size.second;
+		int now = 0;
+		while (find(eat.begin(), eat.end(), new_eat) != eat.end() and now <= max and find(poison.begin(), poison.end(), new_eat) != poison.end()) {
+			new_eat = std::make_pair(rand() % size.first, rand() % size.second);
+			now++;
+		}
+		if (now <= max) {
+			eat.push_back(new_eat);
+		}
+
+	}
+
+
+}
+
+void Field::remake_poison(std::pair<int, int> move) {
+	poison.erase(poison.begin() + distance(poison.begin(), find(poison.begin(), poison.end(), move)));
+
+	std::pair<int, int> new_poison(rand() % size.first+1, rand() % size.second+1);
+	int max = size.first * size.second;
+	int now = 0;
+	while (find(poison.begin(), poison.end(), new_poison) != poison.end() and find(eat.begin(), eat.end(), new_poison) != eat.end()) {
+		new_poison = std::make_pair(rand() % size.first+1, rand() % size.second+1);
+		now++;
+	}
+	poison.push_back(new_poison);
+
+}
+
+void Field::remake_eat(std::pair<int, int> move) {
+	eat.erase(eat.begin() + distance(eat.begin(), find(eat.begin(), eat.end(), move)));
+
+	std::pair<int, int> new_eat(rand() % size.first+1, rand() % size.second+1);
+	int max = size.first * size.second;
+	int now = 0;
+	while (find(eat.begin(), eat.end(), new_eat) != eat.end() and find(poison.begin(), poison.end(), new_eat) != poison.end()) {
+		new_eat = std::make_pair(rand() % size.first+1, rand() % size.second+1);
+		now++;
+	}
+	eat.push_back(new_eat);
+
+}
+
+
 
 void Field::find_coor() {
 	std::set<std::pair< int, int>> been;
 	for (auto& i : robots) {
-		std::pair<int, int> new_coor(rand() % size.first, rand() % size.second);
+		std::pair<int, int> new_coor(rand() % (size.first + 1), rand() % (size.second + 1));
 		while (been.find(new_coor) != been.end()) {
-			new_coor = { rand() % size.first, rand() % size.second };
+			new_coor = { rand() % (size.first+1), rand() % (size.second+1) };
 		}
 		been.emplace(new_coor);
 		i.mCoordinates = new_coor;
@@ -40,28 +123,12 @@ std::vector<int> Field::make_coor(std::vector<int>& old, int f)
 		s.emplace(rand() % 64);
 	}
 	for (auto i : s) {
-		old[i] = rand() % 10;
+		old[i] = 1+rand() % 11;
 	}
 		
 	return old;
 }
-void Field::generate_new_eat() {
-    for(int i = 0; i<Eat_per_step; i++){
-        std::pair<int, int> new_eat(rand()%size.first, rand()%size.second);
-        int max = size.first *size.second;
-        int now = 0;
-        while(find(eat.begin(), eat.end(), new_eat) != eat.end() and now<=max){
-            new_eat = std::make_pair(rand()%size.first, rand()%size.second);
-            now++;
-        }
-        if(now<=max){
-            eat.push_back(new_eat);
-        }
 
-    }
-
-
-}
 
 std::pair<int, int> Field::find_direction(int r_dir) {
     if (r_dir == 1){
@@ -88,8 +155,25 @@ bool Field::step(){
                     is_Free = false;
                 }
             }
+			for (auto& robot : walls) {
+				if (robot == move) {
+					is_Free = false;
+				}
+			}
 
             if(move.first>=0 and move.first<=size.first and move.second>=0 and move.second <= size.second and is_Free){
+				for (auto& robot : eat) {
+					if (robot == move) {
+						i.mHealth += 35;
+						remake_eat(move);
+					}
+				}
+				for (auto& robot : poison) {
+					if (robot == move) {
+						i.mHealth -= 15;
+						remake_poison(move);
+					}
+				}
                 i.mCoordinates = move;
             }
         }else if(response == Eat){
@@ -97,23 +181,32 @@ bool Field::step(){
             std::pair<int, int> move = {i.mCoordinates.first + RDirection.first,
                     i.mCoordinates.second + RDirection.second};
             if(move.first>=0 and move.first<=size.first and move.second>=0 and move.second <= size.second){
+				if (find(poison.begin(), poison.end(), move) != poison.end()) {
+					i.mHealth -= 15;
+					remake_poison(move);
+				
+				}
                 if(find(eat.begin(), eat.end(), move) != eat.end()){
-                    i.mHealth += 2;
-                    eat.erase(eat.begin()+distance(eat.begin(), find(eat.begin(), eat.end(), move)));
-
-					std::pair<int, int> new_eat(rand() % size.first, rand() % size.second);
-					int max = size.first * size.second;
-					int now = 0;
-					while (find(eat.begin(), eat.end(), new_eat) != eat.end()) {
-						new_eat = std::make_pair(rand() % size.first, rand() % size.second);
-						now++;
-					}
-					eat.push_back(new_eat);
+                    i.mHealth += 35;
+					remake_eat(move);
 //					std::cout<<"YAm"<<std::endl;
                 }
             }
 
-        }
+		}
+		else if (response == Poison) {
+			auto RDirection = find_direction(i.mDirection);
+			std::pair<int, int> move = { i.mCoordinates.first + RDirection.first,
+					i.mCoordinates.second + RDirection.second };
+			if (move.first >= 0 and move.first <= size.first and move.second >= 0 and move.second <= size.second) {
+				if (find(poison.begin(), poison.end(), move) != poison.end()) {
+					i.mHealth += 25;
+					remake_poison(move);
+					//					std::cout<<"YAm"<<std::endl;
+				}
+			
+			}
+		}
         i.mHealth--;
         if(robots.size() == 8){
             new_era();
@@ -135,6 +228,10 @@ bool Field::step(){
 void Field::new_era() {
     eat = {};
 	generate_new_eat();
+	walls = {};
+	generate_walls();
+	poison = {};
+	generate_poison();
 	int need_to_make = r_count / 8;
 	std::vector<Robot> newR;
 
@@ -143,12 +240,22 @@ void Field::new_era() {
 		for (int j = 0; j < need_to_make; j++) {
 			tmp.emplace_back(commandsS, rHealth, std::pair<int, int>(-1, -1));
 		}
-		for (int j = 0; j < 5; j++) {
+		for (int j = 0; j < 10; j++) {
 			tmp[j].commands = i.commands;
 		}
-		tmp[2].commands = make_coor(i.commands, 2);
-        tmp[3].commands = make_coor(i.commands, 8);
-        tmp[4].commands = make_coor(i.commands, 16);
+
+        tmp[10].commands = make_coor(i.commands, 1);
+		tmp[11].commands = make_coor(i.commands, 1);
+		tmp[12].commands = make_coor(i.commands, 2);
+		tmp[13].commands = make_coor(i.commands, 2);
+		tmp[14].commands = make_coor(i.commands, 3);
+		tmp[15].commands = make_coor(i.commands, 3);
+		tmp[16].commands = make_coor(i.commands, 4);
+		tmp[17].commands = make_coor(i.commands, 4);
+		tmp[18].commands = make_coor(i.commands, 5);
+		tmp[19].commands = make_coor(i.commands, 5);
+
+        
 		newR.insert(newR.end(), tmp.begin(), tmp.end());
 	}
 	robots = newR;
