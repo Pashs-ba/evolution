@@ -5,19 +5,21 @@
 #include <ctime>
 #include <iostream>
 
-int Robot::fix_direction(){
+
+void Robot::fix_direction(){
     if (mDirection > 4){
         mDirection = 1;
     }
     else if (mDirection < 1){
         mDirection = 4;
     }
+
 }
 
 int Robot::update(){
     mIndex++;
     if (mIndex >= commands.size() - 1 ){
-        mIndex -= commands.size();
+        mIndex -= commands.size()-1;
     }
     if (!commands.empty()){
         switch (commands[mIndex])
@@ -71,7 +73,7 @@ Robot::Robot(int commands_size, int health, std::pair<int, int> iCoordinates):
     size = commands_size;
 //    srand (time(NULL));
     for(auto& i: commands){
-        i = random()%10;
+		i = rand()%10;
     }
 }
 

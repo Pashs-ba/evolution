@@ -15,11 +15,15 @@ private:
     int Eat_per_step;
     int r_count;
     void generate_new_eat();
+	int commandsS;
+	int rHealth;
     static std::pair<int, int> find_direction(int r_dir);
+	void find_coor();
+	std::vector<int> make_coor(std::vector<int>& old, int f);
 
 public:
     int minR;
-    void step();
+    bool step();
     std::vector<Robot> robots;
     Field(std::pair<int, int> size, int RCount, int commands_size, int RHealth, int Eat_per_step, int minR);
     std::pair<int, int> size;

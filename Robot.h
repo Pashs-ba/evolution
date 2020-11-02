@@ -2,17 +2,16 @@
 #define EVO_ROBOT_H
 #include <vector>
 #include "enums.h"
-#include <random>
 
 
 class Robot{
 private:
     int mIndex = 0;
-    int fix_direction();
+    void fix_direction();
     int size;
-    std::vector<int> commands;
+    
 public:
-
+	std::vector<int> commands;
     int mDirection = 4;
     int update();
     int mHealth;
