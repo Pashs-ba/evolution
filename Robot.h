@@ -6,11 +6,12 @@
 
 class Robot{
 private:
-    int mIndex = 0;
+
     void fix_direction();
     int size;
     
 public:
+    int mIndex = 0;
 	std::vector<int> commands;
     int mDirection = 4;
     int update();
