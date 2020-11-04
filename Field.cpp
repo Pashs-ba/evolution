@@ -215,12 +215,22 @@ bool Field::step(){
                     i.mIndex += 1;
                 }
                 else if(find(eat.begin(), eat.end(), move) != eat.end()){
-                    i.mIndex += 2;
+                    i.mIndex += 3;
                 }
                 else if(find(walls.begin(), walls.end(), move) != walls.end()){
-                    i.mIndex += 3;
-                }else{
-                    i.mIndex += 4;
+                    i.mIndex += 5;
+                }
+                else{
+                    i.mIndex += 9;
+                }
+                bool is_Free = true;
+                for (auto & robot : robots){
+                    if (robot.mCoordinates == move){
+                        is_Free = false;
+                    }
+                }
+                if(!is_Free){
+                    i.mIndex += 7;
                 }
             }
 		}
