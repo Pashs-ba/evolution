@@ -27,5 +27,8 @@ void Base::SetIndex(int iIndex){mIndex=iIndex;}
 int Base::GetHealth() {return health;}
 void Base::SetHealth(int iHealth){health=iHealth;}
 
+int Base::GetDirection() {return direction;}
+void Base::SetDirection(int iDirection){direction=iDirection;}
+
 std::vector<int> Base::GetCommands() {return commands;}
 void Base::SetCommands(std::vector<int> iCommands) {commands == iCommands;}

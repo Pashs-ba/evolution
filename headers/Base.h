@@ -29,6 +29,8 @@ public:
 
     int GetIndex();
     void SetIndex(int iIndex);
+    int GetDirection();
+    void SetDirection(int iDirection);
 };
 
 

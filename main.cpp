@@ -7,7 +7,7 @@
 int main()
 {
     srand(time(NULL));
-    Field field(2, 2, 1, 1, 1);
+    Field field(10, 10, 30, 30, 30);
 
     return 0;
 }

@@ -31,6 +31,7 @@ int Robot::Update() {
             return 0;
 
     }
+    mIndex++;
 }
 Robot::Robot(int iHealth, std::vector<int> iCommand): Base(iHealth, iCommand){
     type = "Robot";

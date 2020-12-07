@@ -10,23 +10,27 @@
 
 class Field {
 public:
-    void step();
+    void Step();
     std::vector<std::vector<Base*>> field;
     Field(int Ix,
           int Iy,
           int ICountEat,
           int ICountPoison,
-          int ICountWalls);
+          int ICountWalls,
+          int ICountRobots
+          );
 private:
     int x;
     int y;
     int CountEat;
     int CountPoison;
     int CountWalls;
+    int CountRobots;
     void create_eat();
     void create_walls();
     void create_poisons();
-    void get_items(std::set<std::pair<int, int>>* s);
+    void get_items(std::set<std::pair<int, int>>* s, int count);
+    void create_robots();
 
 };
 
