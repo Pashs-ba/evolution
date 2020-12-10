@@ -9,9 +9,11 @@ int Robot::Update() {
     if(mIndex >= 64){
         mIndex -= 64;
     }
+    mIndex++;
     switch(commands[mIndex]){
         case 0:
             return Go;
+
         case 1:
             direction++;
             fix_direction();
@@ -31,7 +33,7 @@ int Robot::Update() {
             return 0;
 
     }
-    mIndex++;
+
 }
 Robot::Robot(int iHealth, std::vector<int> iCommand): Base(iHealth, iCommand){
     type = "Robot";

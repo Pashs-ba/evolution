@@ -31,6 +31,7 @@ private:
     void create_poisons();
     void get_items(std::set<std::pair<int, int>>* s, int count);
     void create_robots();
+    void randomize_commands(std::vector<int>& commands)
 
 };
 
