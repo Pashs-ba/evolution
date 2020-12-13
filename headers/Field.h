@@ -7,6 +7,7 @@
 #include "Other.h"
 #include "Robot.h"
 #include <set>
+#include <iostream>
 
 class Field {
 public:
@@ -26,12 +27,17 @@ private:
     int CountPoison;
     int CountWalls;
     int CountRobots;
+    int new_count;
     void create_eat();
     void create_walls();
     void create_poisons();
     void get_items(std::set<std::pair<int, int>>* s, int count);
     void create_robots();
-    void randomize_commands(std::vector<int>& commands)
+    void randomize_commands(std::vector<int>& commands);
+    void create_new_eat();
+    void create_new_poison();
+    void create_new_robot(int i, int j);
+
 
 };
 

@@ -7,7 +7,7 @@
 Base::Base(int iHealth, std::vector<int> iCommand):
 commands(iCommand)
 {
-    direction = 0;
+    direction = 1;
     health=iHealth;
     mIndex = 0;
 }
@@ -15,7 +15,7 @@ void Base::fix_direction() {
     if(direction>4){
         direction-=4;
 
-    }if(direction<0){
+    }if(direction<1){
         direction+=4;
     }
 }
